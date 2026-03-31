@@ -1,4 +1,5 @@
 
+
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -93,6 +94,18 @@ function InfoPill({ children, className = "" }) {
   );
 }
 
+function getCategoryRoute(category) {
+  const map = {
+    "Real Estate": "/category/real-estate",
+    Hostels: "/category/hostels",
+    Hospitals: "/category/hospitals",
+    Overseas: "/category/overseas",
+    "Education Institutes": "/category/education",
+  };
+
+  return map[category] || null;
+}
+
 export default function CategoryDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -146,6 +159,8 @@ export default function CategoryDetailPage() {
     );
   }
 
+  const categoryRoute = getCategoryRoute(data.category);
+
   const productData = {
     slug,
     title: data.title,
@@ -163,17 +178,24 @@ export default function CategoryDetailPage() {
     setCartAdded(true);
   };
 
-  const handleBuyNow = () => {
-    setIsPurchased(true);
-    setShowPreview(true);
+  // const handleBuyNow = () => {
+  //   setIsPurchased(true);
+  //   setShowPreview(true);
 
-    navigate("/checkout", {
-      state: {
-        buyNowItem: productData,
-        isPurchased: true,
-      },
-    });
-  };
+  const handleBuyNow = () => {
+  setIsPurchased(true);
+  setShowPreview(true);
+
+  navigate("/payment", {
+    state: {
+      title: productData.title,
+      price: productData.price,
+      image: productData.heroImage,
+      itemKey: productData.slug,
+      fromCart: false,
+    },
+  });
+};
 
   const handleWishlist = () => {
     if (wishlisted) {
@@ -204,6 +226,27 @@ export default function CategoryDetailPage() {
   return (
     <section className="bg-white pb-16">
       <div className="mx-auto max-w-[1280px] px-4 pt-6 sm:px-6 lg:px-8">
+        {/* Breadcrumb */}
+        <div className="mb-5 flex flex-wrap items-center gap-2 text-[14px] font-medium text-slate-500">
+          <Link to="/" className="transition hover:text-red-600">
+            Home
+          </Link>
+
+          <ChevronRight size={15} className="text-slate-400" />
+
+          {categoryRoute ? (
+            <Link to={categoryRoute} className="transition hover:text-red-600">
+              {data.category}
+            </Link>
+          ) : (
+            <span>{data.category}</span>
+          )}
+
+          <ChevronRight size={15} className="text-slate-400" />
+
+          <span className="font-semibold text-[#0f1535]">{data.title}</span>
+        </div>
+
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-full border border-slate-200 px-4 py-3">
           <div className="flex flex-wrap items-center gap-2">
             <InfoPill className="bg-red-50 text-red-600">

@@ -7,7 +7,7 @@ import StatsSection from "../components/StatsSection";
 import Hero from "../components/Hero";
 import BestSeller from "../components/BestSeller";
 import SpecialOffersSection from "../components/SpecialOffersSection";
-
+import Footer from "../components/Footer";
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("Real Estate");
 
