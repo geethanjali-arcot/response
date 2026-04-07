@@ -92,16 +92,16 @@ export default function WishlistPage() {
     return (
       <section className="min-h-screen bg-[#f8fafc] px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
-          <div className="rounded-[28px] border border-slate-200 bg-white px-6 py-14 text-center shadow-sm sm:px-10">
+          <div className="rounded-[24px] border border-slate-200 bg-white px-6 py-14 text-center shadow-sm sm:px-10">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-50 text-red-500">
-              <Heart size={34} fill="currentColor" />
+              <Heart size={32} fill="currentColor" />
             </div>
 
-            <h2 className="mt-6 text-[26px] font-extrabold text-[#0f1535]">
+            <h2 className="mt-6 text-[24px] font-bold tracking-tight text-[#0f172a] sm:text-[28px]">
               Your Wishlist is Empty
             </h2>
 
-            <p className="mx-auto mt-3 max-w-[520px] text-[15px] leading-7 text-slate-500">
+            <p className="mx-auto mt-3 max-w-[540px] text-[15px] leading-7 text-slate-500">
               Save your favourite items here. You can review them anytime and
               quickly move them to cart when you are ready to purchase.
             </p>
@@ -109,7 +109,7 @@ export default function WishlistPage() {
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-red-600 px-7 py-3 text-[15px] font-bold text-white transition hover:bg-red-700"
+              className="mt-8 inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-[15px] font-semibold text-white transition hover:bg-red-700"
             >
               <ArrowLeft size={18} />
               Continue Shopping
@@ -123,14 +123,14 @@ export default function WishlistPage() {
   return (
     <section className="min-h-screen bg-[#f8fafc] pb-12">
       <div className="mx-auto max-w-[1280px] px-4 pt-6 sm:px-6 lg:px-8">
-        {/* TOP HEADER */}
-        <div className="mb-6 rounded-[24px] border border-slate-200 bg-white px-5 py-5 shadow-sm">
+        {/* HEADER */}
+        <div className="mb-6 rounded-[22px] border border-slate-200 bg-white px-5 py-5 shadow-sm sm:px-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h1 className="text-[28px] font-extrabold text-[#0f1535]">
+              <h1 className="text-[26px] font-bold tracking-tight text-[#0f172a] sm:text-[30px]">
                 My Wishlist
               </h1>
-              <p className="mt-1 text-[14px] text-slate-500">
+              <p className="mt-1 text-[14px] font-medium text-slate-500">
                 {wishlistItems.length} saved item
                 {wishlistItems.length > 1 ? "s" : ""}
               </p>
@@ -139,7 +139,7 @@ export default function WishlistPage() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/cart"
-                className="inline-flex items-center gap-2 rounded-2xl bg-[#0f1535] px-5 py-3 text-[14px] font-semibold text-white transition hover:bg-red-600"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#0f172a] px-5 py-3 text-[14px] font-semibold text-white transition hover:bg-red-600"
               >
                 <ShoppingCart size={18} />
                 Cart ({cartCount})
@@ -148,7 +148,7 @@ export default function WishlistPage() {
               <button
                 type="button"
                 onClick={handleMoveAllToCart}
-                className="rounded-2xl bg-red-600 px-5 py-3 text-[14px] font-semibold text-white transition hover:bg-red-700"
+                className="rounded-xl bg-red-600 px-5 py-3 text-[14px] font-semibold text-white transition hover:bg-red-700"
               >
                 Move All to Cart
               </button>
@@ -156,7 +156,7 @@ export default function WishlistPage() {
               <button
                 type="button"
                 onClick={() => navigate("/")}
-                className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-[14px] font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-[14px] font-semibold text-slate-700 transition hover:bg-slate-50"
               >
                 Continue Shopping
               </button>
@@ -165,13 +165,13 @@ export default function WishlistPage() {
         </div>
 
         {/* MAIN GRID */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-          {/* LEFT SIDE */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+          {/* LEFT */}
           <div className="space-y-5">
             {wishlistItems.map((item) => (
               <div
                 key={item.slug}
-                className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm"
+                className="overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
               >
                 <div className="grid grid-cols-1 md:grid-cols-[220px_minmax(0,1fr)]">
                   {/* IMAGE */}
@@ -183,7 +183,7 @@ export default function WishlistPage() {
                     />
 
                     {item.discount && (
-                      <span className="absolute left-0 top-4 rounded-r-2xl bg-orange-400 px-4 py-2 text-[12px] font-bold text-white">
+                      <span className="absolute left-0 top-4 rounded-r-xl bg-orange-500 px-4 py-2 text-[12px] font-semibold text-white">
                         {item.discount}
                       </span>
                     )}
@@ -201,39 +201,39 @@ export default function WishlistPage() {
                         </span>
                       </div>
 
-                      <h2 className="text-[21px] font-extrabold leading-tight text-[#0f1535]">
+                      <h2 className="text-[20px] font-bold leading-snug text-[#0f172a] sm:text-[22px]">
                         {item.title}
                       </h2>
 
-                      <p className="mt-3 text-[14px] leading-7 text-slate-500">
+                      <p className="mt-3 max-w-[680px] text-[14px] leading-7 text-slate-500">
                         Verified item details with clean presentation and quick
                         access to move into cart whenever needed.
                       </p>
 
                       <div className="mt-4 flex flex-wrap items-center gap-3">
-                        <span className="text-[28px] font-black text-[#0f1535]">
+                        <span className="text-[24px] font-bold text-[#0f172a] sm:text-[26px]">
                           ₹ {item.price}
                         </span>
 
                         {item.oldPrice ? (
-                          <span className="text-[18px] font-semibold text-slate-400 line-through">
+                          <span className="text-[16px] font-medium text-slate-400 line-through">
                             ₹ {item.oldPrice}
                           </span>
                         ) : null}
 
                         {item.location ? (
-                          <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] font-semibold text-slate-700">
+                          <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] font-medium text-slate-700">
                             {item.location}
                           </span>
                         ) : null}
                       </div>
                     </div>
 
-                    <div className="mt-6 flex flex-wrap items-center gap-4">
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
                       <button
                         type="button"
                         onClick={() => handleAddToCart(item)}
-                        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0f1535] px-7 py-3 text-[14px] font-bold text-white transition hover:bg-red-600"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0f172a] px-6 py-3 text-[14px] font-semibold text-white transition hover:bg-red-600"
                       >
                         <ShoppingCart size={18} />
                         Add to Cart
@@ -242,7 +242,7 @@ export default function WishlistPage() {
                       <button
                         type="button"
                         onClick={() => handleRemove(item.slug)}
-                        className="inline-flex items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-6 py-3 text-[14px] font-bold text-red-600 transition hover:bg-red-100"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-6 py-3 text-[14px] font-semibold text-red-600 transition hover:bg-red-100"
                       >
                         <Trash2 size={17} />
                         Remove
@@ -254,42 +254,42 @@ export default function WishlistPage() {
             ))}
           </div>
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT */}
           <div>
-            <div className="sticky top-24 rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="text-[20px] font-extrabold text-[#0f1535]">
+            <div className="sticky top-24 rounded-[22px] border border-slate-200 bg-white p-6 shadow-sm">
+              <h3 className="text-[20px] font-bold text-[#0f172a]">
                 Wishlist Summary
               </h3>
 
               <div className="mt-6 space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[14px] text-slate-500">Saved Items</span>
-                  <span className="text-[15px] font-bold text-slate-900">
+                  <span className="text-[15px] font-semibold text-slate-900">
                     {wishlistItems.length}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[14px] text-slate-500">Cart Items</span>
-                  <span className="text-[15px] font-bold text-slate-900">
+                  <span className="text-[15px] font-semibold text-slate-900">
                     {cartCount}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <span className="text-[14px] text-slate-500">Total Value</span>
-                  <span className="text-[15px] font-bold text-slate-900">
+                  <span className="text-[15px] font-semibold text-slate-900">
                     ₹ {totalValue}
                   </span>
                 </div>
 
                 <div className="rounded-2xl bg-[#eef8ee] p-4">
                   <div className="flex items-start gap-3">
-                    <div className="rounded-xl bg-green-600 p-3 text-white">
+                    <div className="rounded-xl bg-red-600 p-3 text-white">
                       <ShieldCheck size={18} />
                     </div>
                     <div>
-                      <h4 className="text-[14px] font-bold text-[#0f1535]">
+                      <h4 className="text-[14px] font-semibold text-[#0f172a]">
                         Verified Products
                       </h4>
                       <p className="mt-1 text-[13px] leading-6 text-slate-500">
@@ -302,14 +302,14 @@ export default function WishlistPage() {
                 <button
                   type="button"
                   onClick={() => navigate("/")}
-                  className="w-full rounded-2xl bg-red-600 px-5 py-3 text-[15px] font-bold text-white transition hover:bg-red-700"
+                  className="w-full rounded-xl bg-red-600 px-5 py-3 text-[15px] font-semibold text-white transition hover:bg-red-700"
                 >
                   Go to Home
                 </button>
 
                 <Link
                   to="/cart"
-                  className="block w-full rounded-2xl border border-slate-200 px-5 py-3 text-center text-[15px] font-bold text-[#0f1535] transition hover:bg-slate-50"
+                  className="block w-full rounded-xl border border-slate-200 px-5 py-3 text-center text-[15px] font-semibold text-[#0f172a] transition hover:bg-slate-50"
                 >
                   Open Cart
                 </Link>
@@ -318,37 +318,7 @@ export default function WishlistPage() {
           </div>
         </div>
 
-        {/* BOTTOM INFO */}
-        <div className="mt-10 rounded-[24px] bg-[#e8f6e8] px-5 py-6 sm:px-6">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="rounded-2xl bg-[#dff1df] p-5">
-              <h4 className="text-[15px] font-bold text-[#0f1535]">
-                Quick Access
-              </h4>
-              <p className="mt-2 text-[13px] leading-6 text-slate-500">
-                Move saved items to cart instantly and continue your purchase.
-              </p>
-            </div>
-
-            <div className="rounded-2xl bg-[#dff1df] p-5">
-              <h4 className="text-[15px] font-bold text-[#0f1535]">
-                Easy Comparison
-              </h4>
-              <p className="mt-2 text-[13px] leading-6 text-slate-500">
-                Review all your favourite items in one clean page.
-              </p>
-            </div>
-
-            <div className="rounded-2xl bg-[#dff1df] p-5">
-              <h4 className="text-[15px] font-bold text-[#0f1535]">
-                Secure Process
-              </h4>
-              <p className="mt-2 text-[13px] leading-6 text-slate-500">
-                Smooth flow from wishlist to cart and then checkout.
-              </p>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </section>
   );

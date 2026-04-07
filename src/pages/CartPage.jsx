@@ -48,16 +48,29 @@ export default function CartPage() {
   const platformFee = 0;
   const total = subtotal + platformFee;
 
+  // const handleProceedToCheckout = () => {
+  //   navigate("/checkout", {
+  //     state: {
+  //       cartItems,
+  //       subtotal,
+  //       platformFee,
+  //       total,
+  //     },
+  //   });
+  // };
+
+
   const handleProceedToCheckout = () => {
-    navigate("/checkout", {
-      state: {
-        cartItems,
-        subtotal,
-        platformFee,
-        total,
-      },
-    });
-  };
+  navigate("/payment", {
+    state: {
+      cartItems,
+      subtotal,
+      platformFee,
+      total,
+      fromCart: true,
+    },
+  });
+};
 
   if (cartItems.length === 0) {
     return (

@@ -1,97 +1,103 @@
 
 
-import React, { useState } from "react";
 
+import React, { useState } from "react";
+ 
 const offers = [
   {
     id: 1,
-    title: "Real Estate Dataset",
+    title: "Premium Villas",
     category: "Real Estate",
-    tags: ["PROPERTY", "DATA", "LEADS"],
+    tags: ["PROPERTY", "SALES", "HOMES"],
     description:
-      "Verified real estate business contacts and property datasets collected by admin.",
-    provider: "Justklick Data",
+      "Explore premium villas and trusted property deals in prime locations.Explore premium villas and trusted property deals in prime locations.",
+    provider: "Urban Nest Realty",
     price: "18,999",
     oldPrice: "24,999",
     image:
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
+    highlighted: false,
   },
   {
     id: 2,
-    title: "Hostels Database",
-    category: "Hostels",
-    tags: ["STAY", "DATA", "CONTACTS"],
+    title: "Fine Dining Deals",
+    category: "Restaurants",
+    tags: ["FOOD", "DINING", "OFFERS"],
     description:
-      "Student hostels and PG database with verified details and locations.",
-    provider: "Justklick Data",
-    price: "2,999",
-    oldPrice: "4,499",
+      "Discover top restaurants and exclusive meal packages.Explore premium villas and trusted property deals in prime locations.",
+    provider: "Royal Table",
+    price: "999",
+    oldPrice: "1,499",
     image:
-      "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1514933651103-005eec06c04b",
+    highlighted: true,
   },
   {
     id: 3,
-    title: "Hospitals Data",
-    category: "Healthcare",
-    tags: ["MEDICAL", "DATA"],
+    title: "Health Packages",
+    category: "Hospitals",
+    tags: ["HEALTHCARE", "CARE"],
     description:
-      "Hospitals and clinics dataset with verified healthcare contacts.",
-    provider: "Justklick Data",
-    price: "3,499",
-    oldPrice: "5,200",
+      "Access reliable hospitals and quality treatment services.Explore premium villas and trusted property deals in prime locations.",
+    provider: "City Care",
+    price: "2,499",
+    oldPrice: "3,299",
     image:
-      "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc",
+    highlighted: false,
   },
   {
     id: 4,
-    title: "Overseas Consultants Data",
-    category: "Overseas",
-    tags: ["ABROAD", "STUDY"],
+    title: "Luxury Rooms",
+    category: "Hotels",
+    tags: ["STAY", "ROOMS"],
     description:
-      "Overseas education consultants and visa services database for outreach.",
-    provider: "Justklick Data",
-    price: "4,999",
-    oldPrice: "6,500",
+      "Book elegant rooms with modern facilities.Explore premium villas and trusted property deals in prime locations.",
+    provider: "Grand Horizon",
+    price: "3,999",
+    oldPrice: "5,200",
     image:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461",
+    highlighted: false,
   },
   {
     id: 5,
-    title: "Education Institutes Data",
+    title: "Skill Courses",
     category: "Education",
-    tags: ["COLLEGES", "COURSES"],
+    tags: ["LEARNING", "COURSES"],
     description:
-      "Schools, colleges, and institutes dataset for marketing and lead generation.",
-    provider: "Justklick Data",
-    price: "5,499",
-    oldPrice: "7,000",
+      "Professional learning programs for career growth.Explore premium villas and trusted property deals in prime locations.",
+    provider: "Bright Academy",
+    price: "4,499",
+    oldPrice: "6,000",
     image:
-      "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1509062522246-3755977927d7",
+    highlighted: false,
   },
 ];
-
+ 
 function SpecialOffersSection() {
   const [startIndex, setStartIndex] = useState(0);
-
+ 
   const visibleCount = 3;
   const maxStartIndex = offers.length - visibleCount;
   const cardWidth = 100 / visibleCount;
-
+ 
   return (
-    <section className="bg-white py-10">
-      <div className="mx-auto max-w-[1380px] px-4 sm:px-4">
+    <section className="w-full">
+      <div className="mx-auto">
+ 
         {/* HEADER */}
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold text-[#1f2340] sm:text-4xl">
-            Featured Datasets
+          <h2 className="text-3xl sm:text-4xl font-semibold text-[#151d3b]">
+            Special Offers
           </h2>
-
-          <p className="mx-auto mt-3 max-w-[620px] text-sm leading-7 text-[#64748b]">
-            Explore admin-collected business data and purchase verified datasets
-            across major categories.
+ 
+          <p className="mx-auto mt-3 max-w-[620px] text-sm text-slate-500">
+            Discover curated offers across categories with trusted services.
           </p>
         </div>
-
+ 
         {/* SLIDER */}
         <div className="overflow-hidden">
           <div
@@ -100,105 +106,109 @@ function SpecialOffersSection() {
               transform: `translateX(-${startIndex * cardWidth}%)`,
             }}
           >
-            {offers.map((offer, index) => (
+            {offers.map((offer) => (
               <div
                 key={offer.id}
-                className="w-full flex-shrink-0 px-3 md:w-1/2 lg:w-1/3"
+                className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4"
               >
-                <div className="flex h-full flex-col overflow-hidden rounded-[22px] border border-[#e2e8f0] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  {/* IMAGE */}
-                  <div
-                    className={`h-[240px] w-full overflow-hidden ${
-                      index % 2 === 0 ? "bg-[#eff6ff]" : "bg-[#fff1f2]"
-                    }`}
-                  >
-                    <img
-                      src={offer.image}
-                      alt={offer.title}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-
-                  {/* CONTENT */}
-                  <div className="flex min-h-[250px] flex-1 flex-col justify-between p-5">
+                <div
+                  className={`h-full rounded-xl border bg-white transition hover:-translate-y-1 flex flex-col ${
+                    offer.highlighted
+                      ? "shadow-lg"
+                      : "shadow-sm hover:shadow-md"
+                  }`}
+                >
+                  {/* ✅ INCREASED IMAGE HEIGHT */}
+                 <div className="h-[260px] w-full overflow-hidden rounded-xl">
+  <img
+    src={offer.image}
+    alt={offer.title}
+    className="h-full w-full object-cover rounded-xl"
+  />
+</div>
+ 
+                  {/* ✅ INCREASED CONTENT HEIGHT */}
+                  <div className="p-5 flex flex-col justify-between flex-1 min-h-[260px]">
+                    
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#2563eb]">
+                      <p className="text-[10px] font-semibold uppercase text-green-600">
                         {offer.category}
                       </p>
-
-                      <h3 className="mt-2 text-lg font-semibold text-[#1f2340]">
+ 
+                      <h3 className="mt-2 text-lg font-semibold">
                         {offer.title}
                       </h3>
-
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {offer.tags.map((tag, tagIndex) => (
+ 
+                      <div className="mt-2 flex flex-wrap gap-1">
+                        {offer.tags.map((tag) => (
                           <span
                             key={tag}
-                            className={`rounded-full px-2.5 py-1 text-[9px] font-semibold ${
-                              tagIndex % 2 === 0
-                                ? "bg-[#eff6ff] text-[#2563eb]"
-                                : "bg-[#fee2e2] text-[#ef4444]"
-                            }`}
+                            className="bg-green-100 text-green-600 text-[9px] px-2 py-1 rounded-full"
                           >
                             {tag}
                           </span>
                         ))}
                       </div>
-
-                      <p className="mt-3 text-xs leading-6 text-[#64748b]">
+ 
+                      <p className="mt-3 text-xs text-slate-500 leading-5">
                         {offer.description}
                       </p>
-
-                      <p className="mt-3 text-xs font-semibold text-[#1f2340]">
+ 
+                      <p className="mt-3 text-xs font-semibold">
                         {offer.provider}
                       </p>
                     </div>
-
+ 
                     {/* FOOTER */}
-                    <div className="mt-5 flex items-center justify-between">
-                      <button className="rounded-lg bg-[#2563eb] px-4 py-2 text-xs font-medium text-white transition hover:bg-[#1d4ed8]">
-                        View Dataset
+                    <div className="mt-4 flex items-center justify-between">
+                      <button className="bg-green-600 text-white text-xs px-4 py-1.5 rounded">
+                        Add to cart
                       </button>
-
-                      <div className="text-right">
-                        <span className="text-sm font-semibold text-[#1f2340]">
+ 
+                      <div>
+                        <span className="font-semibold">
                           ₹{offer.price}
                         </span>
-                        <span className="ml-2 text-xs text-gray-400 line-through">
+                        <span className="ml-2 text-xs line-through text-gray-400">
                           ₹{offer.oldPrice}
                         </span>
                       </div>
                     </div>
+ 
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
+ 
         {/* NAV BUTTONS */}
         <div className="mt-8 flex justify-center gap-4">
           <button
-            onClick={() => setStartIndex((prev) => Math.max(prev - 1, 0))}
+            onClick={() =>
+              setStartIndex((prev) => Math.max(prev - 1, 0))
+            }
             disabled={startIndex === 0}
-            className={`flex h-10 w-10 items-center justify-center rounded-full border transition ${
+            className={`h-9 w-9 rounded-full border ${
               startIndex === 0
-                ? "cursor-not-allowed border-gray-200 text-gray-300"
-                : "border-[#fecaca] text-[#ef4444] hover:bg-[#fff1f2]"
+                ? "text-gray-300 border-gray-200"
+                : "text-green-600 border-green-200 hover:bg-green-50"
             }`}
           >
             ←
           </button>
-
+ 
           <button
             onClick={() =>
-              setStartIndex((prev) => Math.min(prev + 1, maxStartIndex))
+              setStartIndex((prev) =>
+                Math.min(prev + 1, maxStartIndex)
+              )
             }
             disabled={startIndex === maxStartIndex}
-            className={`flex h-10 w-10 items-center justify-center rounded-full border transition ${
+            className={`h-9 w-9 rounded-full border ${
               startIndex === maxStartIndex
-                ? "cursor-not-allowed border-gray-200 text-gray-300"
-                : "border-[#bfdbfe] text-[#2563eb] hover:bg-[#eff6ff]"
+                ? "text-gray-300 border-gray-200"
+                : "text-green-600 border-green-200 hover:bg-green-50"
             }`}
           >
             →
@@ -208,5 +218,17 @@ function SpecialOffersSection() {
     </section>
   );
 }
-
+ 
 export default SpecialOffersSection;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -41,8 +41,8 @@ const categories = [
 
 function CategoriesPage() {
   return (
-    <section className="py-6 sm:py-8">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-4">
+    <section className="py-9">
+      <div className="mx-auto max-w-[1350px] px-4">
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold text-[#1f2340] sm:text-4xl">
             Browse Data Categories

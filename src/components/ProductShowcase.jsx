@@ -1,4 +1,5 @@
 
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showcaseGroups } from "../data/categoryDetails";
@@ -6,9 +7,13 @@ import { showcaseGroups } from "../data/categoryDetails";
 function CategoryCard({ item, tone }) {
   const navigate = useNavigate();
 
+  const handleCardClick = () => {
+  navigate(`/dataset/${item.slug}`);
+};
+
   return (
     <div
-      onClick={() => navigate(`/dataset/${item.slug}`)}
+      onClick={handleCardClick}
       className="w-[95px] shrink-0 cursor-pointer sm:w-[105px] md:w-[115px]"
     >
       <div
@@ -22,7 +27,7 @@ function CategoryCard({ item, tone }) {
         <div className="absolute inset-0 bg-white/10" />
       </div>
 
-      <p className="mt-3 text-center text-[11px] font-semibold text-[#1f2340]">
+      <p className="mt-4 text-center text-[11px] font-semibold text-[#1f2340]">
         {item.title}
       </p>
     </div>
@@ -81,15 +86,13 @@ function ShowcaseBox({
           {categoryName}
         </p>
 
-        <p className="mb-7 max-w-[440px] text-[12px] leading-6 text-[#64748b]">
+        <p className="mb-7 min-h-[48px] max-w-[440px] line-clamp-2 text-[12px] leading-6 text-[#64748b]">
           {description}
         </p>
 
         <div className="relative px-6">
-          {/* Left arrow */}
           <ArrowButton direction="left" onClick={onPrev} side="left" />
 
-          {/* Cards */}
           <div className="flex items-start justify-center gap-4">
             {items.map((item, index) => (
               <CategoryCard
@@ -100,7 +103,6 @@ function ShowcaseBox({
             ))}
           </div>
 
-          {/* Right arrow */}
           <ArrowButton direction="right" onClick={onNext} side="right" />
         </div>
       </div>

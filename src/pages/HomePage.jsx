@@ -1,15 +1,20 @@
 
+
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CategoriesSection from "../components/CategoriesSection";
 import FeaturesStrip from "../components/FeaturesStrip";
 import ProductShowcase from "../components/ProductShowcase";
 import StatsSection from "../components/StatsSection";
 import Hero from "../components/Hero";
+import NewsletterBanner from "../components/NewsletterBanner";
 import BestSeller from "../components/BestSeller";
 import SpecialOffersSection from "../components/SpecialOffersSection";
-import Footer from "../components/Footer";
+
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("Real Estate");
+  const navigate = useNavigate();
 
   return (
     <>
@@ -33,7 +38,7 @@ export default function HomePage() {
       </section>
 
       {/* Categories */}
-      <section className="mb-10">
+      <section id= "categories" className="scroll-mt-24 pt-6">
         <CategoriesSection />
       </section>
 
@@ -45,6 +50,10 @@ export default function HomePage() {
       {/* Stats */}
       <section className="mb-10">
         <StatsSection />
+      </section>
+
+      <section className="mb-10">
+        <NewsletterBanner />
       </section>
     </>
   );

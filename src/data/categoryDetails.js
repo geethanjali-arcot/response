@@ -678,6 +678,40 @@ export const detailPageData = {
       "Updated and downloadable data",
     ],
   },
+  "luxury-villas": {
+    category: "Real Estate",
+    title: "Luxury Villas Database - AP & Telangana",
+    rating: "4.3",
+    reviews: "248 Reviews",
+    likes: "420K Like",
+    price: "1899.00",
+    oldPrice: "2099.00",
+    discount: "9%",
+    badge1: "Preview Data",
+    badge2: "Premium Access",
+    badge3: "In Stocks",
+    heroImage:
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1000&q=80",
+    features: [
+      "Number of Luxury Villas : 14250",
+      "Area Covered : Telangana & Andhra Pradesh",
+      "Service / Business Coverage : Premium Villas, Gated Villas, Duplex Villas",
+      "Data Content : Villa Name, Address, City, Pin Code, State, Contact Number, Email Id, Website Details",
+      "Data in Excel Link - Simple Access",
+      "Data Can Filter by City wise / State wise / Service / Keyword or Business Type",
+      "Validity - Lifetime",
+      "Data 2025 Updated",
+      "80% To 90% Accuracy in Data",
+      "Sources of our data : Our Own Mobile App & Website",
+      "How To Download Data : Select Your Data",
+      "Now Click On Pay & Download Button",
+      "Fill The Order Details with email & sms",
+      "Now Proceed For Payment",
+      "After completing your payment, you will get automatically Data Link & You can Download Data File on your Desktop | Laptop | Mobile Etc Immediately",
+      "We Also Send Another Data Link In Your Email To Download The Data",
+      "In Case Of Any Enquiry / Issue, Full Support by Our Customer Care Department",
+    ],
+  },
 };
 
 export const saleItems = [
@@ -724,4 +758,7 @@ export const saleItems = [
     oldPrice: "98.4",
   },
 ];
+
+
+
 
