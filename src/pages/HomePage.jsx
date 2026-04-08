@@ -11,6 +11,10 @@ import Hero from "../components/Hero";
 import NewsletterBanner from "../components/NewsletterBanner";
 import BestSeller from "../components/BestSeller";
 import SpecialOffersSection from "../components/SpecialOffersSection";
+import FlashSaleSection from "../components/FlashSaleSection";
+import DatabaseOnSaleSection from "../components/DatabaseOnSaleSection";
+import TestimonialsSection from "../components/TestimonialsSection";
+
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("Real Estate");
@@ -46,6 +50,19 @@ export default function HomePage() {
       <section className="mb-10">
         <SpecialOffersSection />
       </section>
+
+      <section classname="mb-10">
+        <FlashSaleSection/>
+      </section>
+
+      <section classname="mb-10">
+        <DatabaseOnSaleSection/>
+      </section>
+
+      <section classname="mb-10">
+        <TestimonialsSection/>
+      </section>
+
 
       {/* Stats */}
       <section className="mb-10">

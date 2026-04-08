@@ -45,7 +45,7 @@ function CategoriesPage() {
       <div className="mx-auto max-w-[1350px] px-4">
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold text-[#1f2340] sm:text-4xl">
-            Browse Data Categories
+            Categories
           </h1>
 
           <p className="mx-auto mt-4 max-w-[620px] text-sm leading-7 text-[#64748b]">
