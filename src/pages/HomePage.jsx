@@ -51,15 +51,15 @@ export default function HomePage() {
         <SpecialOffersSection />
       </section>
 
-      <section classname="mb-10">
+      <section className="mb-10">
         <FlashSaleSection/>
       </section>
 
-      <section classname="mb-10">
+      <section className="mb-10">
         <DatabaseOnSaleSection/>
       </section>
 
-      <section classname="mb-10">
+      <section className="mb-10">
         <TestimonialsSection/>
       </section>
 

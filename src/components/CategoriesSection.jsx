@@ -42,7 +42,7 @@ const categories = [
 function CategoriesPage() {
   return (
     <section className="py-9">
-      <div className="mx-auto max-w-[1350px] px-4">
+      <div className="mx-auto max-w-[1350px] px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold text-[#1f2340] sm:text-4xl">
             Categories
@@ -54,16 +54,16 @@ function CategoriesPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="flex gap-4 overflow-x-auto text-center no-scrollbar lg:grid lg:grid-cols-5 lg:gap-6 lg:overflow-visible">
           {categories.map((item, index) => (
             <Link
               key={index}
               to={`/category/${item.slug}`}
-              className="group flex flex-col items-center text-center"
+              className="group flex min-w-[180px] flex-col items-center text-center sm:min-w-[210px] lg:min-w-0"
             >
               <div className="w-full max-w-[220px]">
                 <div className="overflow-hidden rounded-[22px] border border-[#e2e8f0] bg-white shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
-                  <div className="relative h-[300px] w-full overflow-hidden bg-[#eff6ff]">
+                  <div className="relative h-[240px] w-full overflow-hidden bg-[#eff6ff] sm:h-[280px] lg:h-[300px]">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -74,11 +74,11 @@ function CategoriesPage() {
                 </div>
               </div>
 
-              <h3 className="mt-4 flex h-[48px] items-center justify-center text-[14px] font-semibold uppercase tracking-wide text-[#1f2340]">
+              <h3 className="mt-4 flex min-h-[48px] items-center justify-center text-[13px] font-semibold uppercase tracking-wide text-[#1f2340] sm:text-[14px]">
                 {item.title}
               </h3>
 
-              <p className="mt-1 h-[18px] text-[10px] font-semibold tracking-[0.18em] text-[#ef4444]">
+              <p className="mt-1 min-h-[18px] text-[10px] font-semibold tracking-[0.18em] text-[#ef4444]">
                 {item.subtitle}
               </p>
             </Link>

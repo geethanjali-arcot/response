@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import EnquiryPage from "./pages/EnquiryPage";
+import BuyerPage from "./pages/BuyerPage";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         {/* Outside navbar layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/buyer" element={<BuyerPage />} />
       </Routes>
     </BrowserRouter>
   );

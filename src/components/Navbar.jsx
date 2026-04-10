@@ -495,19 +495,27 @@ export default function Navbar() {
               </Link>
 
               <Link
-                to="/profile"
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#d1d5db] text-[#374151] transition hover:bg-[#c4c9d1]"
-              >
-                <User size={20} strokeWidth={2} />
-              </Link>
+  to="/profile"
+  className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#d1d5db] text-[#374151] transition hover:bg-[#c4c9d1]"
+>
+  <User size={20} strokeWidth={2} />
+</Link>
 
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="flex h-12 items-center justify-center rounded-2xl bg-red-600 px-4 font-semibold text-white transition hover:bg-red-700"
-              >
-                Logout
-              </button>
+{/* Buyer Button */}
+<Link
+  to="/buyer"
+  className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#1d4ed8] px-4 font-semibold text-white transition hover:bg-[#1e40af]"
+>
+  Buyer
+</Link>
+
+<button
+  type="button"
+  onClick={handleLogout}
+  className="flex h-12 items-center justify-center rounded-2xl bg-red-600 px-4 font-semibold text-white transition hover:bg-red-700"
+>
+  Logout
+</button>
             </>
           ) : (
             <>

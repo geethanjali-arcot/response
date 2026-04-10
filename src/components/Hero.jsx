@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -59,35 +57,25 @@ export default function Hero() {
   }, []);
 
   const currentSlide = slides[current];
-const handleViewAllCategories = () => {
-  const scrollToCategories = () => {
-    const section = document.getElementById("categories");
-    if (section) {
-      const yOffset = -80; // adjust if navbar height is more or less
-      const y =
-        section.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
-      window.scrollTo({
-        top: y,
-        behavior: "smooth",
-      });
-    }
+  const handleViewAllCategories = () => {
+    const section = document.getElementById("categories");
+    if (!section) return;
+
+    const yOffset = -80;
+    const y =
+      section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
   };
 
-  if (window.location.pathname !== "/") {
-    navigate("/");
-    setTimeout(() => {
-      scrollToCategories();
-    }, 200);
-  } else {
-    scrollToCategories();
-  }
-};
-
   return (
-    <section className="w-full">
-      <div className="relative overflow-hidden rounded-[32px] bg-slate-900 shadow-sm">
-        <div className="relative h-[420px] sm:h-[500px] lg:h-[560px]">
+    <section className="relative z-0 w-full isolate">
+      <div className="relative overflow-hidden rounded-[18px] bg-slate-900 shadow-sm sm:rounded-[22px] lg:rounded-[32px]">
+        <div className="relative h-[220px] sm:h-[280px] md:h-[340px] lg:h-[560px]">
           {slides.map((slide, index) => (
             <div
               key={index}
@@ -105,12 +93,12 @@ const handleViewAllCategories = () => {
                 }`}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/80 via-[#020617]/55 to-[#020617]/30" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/80 via-[#020617]/55 to-[#020617]/30 sm:from-[#020617]/82 sm:via-[#020617]/58 sm:to-[#020617]/32" />
 
-              <div className="relative flex h-full items-center px-5 py-10 sm:px-8 lg:px-14">
+              <div className="relative flex h-full items-center px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-8 lg:px-14 lg:py-10">
                 <div className="max-w-[640px]">
                   <p
-                    className={`text-[12px] font-semibold tracking-[4px] text-blue-300 transition-all duration-700 ${
+                    className={`text-[9px] font-semibold tracking-[2px] text-blue-300 transition-all duration-700 sm:text-[10px] sm:tracking-[3px] md:text-[11px] lg:text-[12px] lg:tracking-[4px] ${
                       current === index
                         ? "translate-y-0 opacity-100"
                         : "translate-y-4 opacity-0"
@@ -120,7 +108,7 @@ const handleViewAllCategories = () => {
                   </p>
 
                   <h1
-                    className={`mt-4 text-[28px] font-extrabold leading-[1.2] text-white transition-all duration-700 delay-100 sm:text-[36px] lg:text-[44px] ${
+                    className={`mt-2 text-[20px] font-extrabold leading-[1.15] text-white transition-all duration-700 delay-100 sm:mt-3 sm:text-[26px] md:text-[32px] lg:mt-4 lg:text-[44px] ${
                       current === index
                         ? "translate-y-0 opacity-100"
                         : "translate-y-6 opacity-0"
@@ -130,7 +118,7 @@ const handleViewAllCategories = () => {
                   </h1>
 
                   <p
-                    className={`mt-4 text-[18px] font-medium text-slate-200 transition-all duration-700 delay-200 sm:text-[21px] ${
+                    className={`mt-2 text-[11px] font-medium text-slate-200 transition-all duration-700 delay-200 sm:text-[13px] md:text-[15px] lg:mt-4 lg:text-[21px] ${
                       current === index
                         ? "translate-y-0 opacity-100"
                         : "translate-y-6 opacity-0"
@@ -140,7 +128,7 @@ const handleViewAllCategories = () => {
                   </p>
 
                   <p
-                    className={`mt-4 max-w-[560px] text-[15px] leading-7 text-slate-300 transition-all duration-700 delay-300 sm:text-[16px] ${
+                    className={`mt-2 max-w-[560px] text-[10px] leading-4 text-slate-300 transition-all duration-700 delay-300 sm:mt-3 sm:text-[11px] sm:leading-5 md:text-[13px] md:leading-6 lg:mt-4 lg:text-[16px] lg:leading-7 ${
                       current === index
                         ? "translate-y-0 opacity-100"
                         : "translate-y-6 opacity-0"
@@ -150,7 +138,7 @@ const handleViewAllCategories = () => {
                   </p>
 
                   <div
-                    className={`mt-8 flex items-center gap-8 transition-all duration-700 delay-500 ${
+                    className={`mt-4 flex flex-wrap items-center gap-2 transition-all duration-700 delay-500 sm:mt-5 sm:gap-3 md:mt-6 lg:mt-8 lg:gap-4 ${
                       current === index
                         ? "translate-y-0 opacity-100"
                         : "translate-y-6 opacity-0"
@@ -158,16 +146,16 @@ const handleViewAllCategories = () => {
                   >
                     <button
                       onClick={() => navigate(currentSlide.link)}
-                      className="inline-flex items-center rounded-xl bg-[#ef4444] px-6 py-3.5 text-[15px] font-semibold text-white shadow-md transition hover:bg-[#dc2626]"
+                      className="inline-flex items-center justify-center rounded-lg bg-[#ef4444] px-3 py-2 text-[10px] font-semibold text-white shadow-md transition hover:bg-[#dc2626] sm:px-4 sm:py-2.5 sm:text-[11px] md:text-[12px] lg:rounded-xl lg:px-6 lg:py-3.5 lg:text-[15px]"
                     >
                       Explore Now
                     </button>
 
                     <button
                       onClick={handleViewAllCategories}
-                      className="inline-flex items-center rounded-xl bg-[#ef4444] px-6 py-3.5 text-[15px] font-semibold text-white shadow-md transition hover:bg-[#dc2626]"
+                      className="inline-flex items-center justify-center rounded-lg bg-white/15 px-3 py-2 text-[10px] font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:px-4 sm:py-2.5 sm:text-[11px] md:text-[12px] lg:rounded-xl lg:px-6 lg:py-3.5 lg:text-[15px]"
                     >
-                      View All Categories
+                      View Categories
                     </button>
                   </div>
                 </div>
@@ -175,15 +163,15 @@ const handleViewAllCategories = () => {
             </div>
           ))}
 
-          <div className="absolute bottom-6 left-5 z-20 flex gap-3 sm:bottom-8 sm:left-8 lg:left-14">
+          <div className="absolute bottom-3 left-4 z-20 flex gap-2 sm:bottom-4 sm:left-6 md:bottom-5 md:left-8 lg:bottom-8 lg:left-14">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrent(index)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
+                className={`rounded-full transition-all duration-300 ${
                   current === index
-                    ? "w-8 bg-white"
-                    : "w-2.5 bg-white/50 hover:bg-white/80"
+                    ? "h-2 w-6 bg-white sm:w-7 lg:w-8"
+                    : "h-2 w-2 bg-white/50 hover:bg-white/80"
                 }`}
               />
             ))}

@@ -57,7 +57,6 @@ export default function TestimonialsSection() {
 
   const startXRef = useRef(0);
   const currentXRef = useRef(0);
-  const hasMovedRef = useRef(false);
   const sectionRef = useRef(null);
 
   const total = testimonials.length;
@@ -77,14 +76,12 @@ export default function TestimonialsSection() {
   const handleDragStart = (clientX) => {
     startXRef.current = clientX;
     currentXRef.current = clientX;
-    hasMovedRef.current = false;
     setIsDragging(true);
   };
 
   const handleDragMove = (clientX) => {
     if (!isDragging) return;
     currentXRef.current = clientX;
-    hasMovedRef.current = true;
   };
 
   const handleDragEnd = () => {
@@ -110,7 +107,10 @@ export default function TestimonialsSection() {
     let wheelAccumulator = 0;
 
     const handleWheel = (e) => {
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (window.innerWidth < 1024) return;
+
+      const delta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
 
       if (isScrolling) {
         e.preventDefault();
@@ -118,7 +118,6 @@ export default function TestimonialsSection() {
       }
 
       wheelAccumulator += delta;
-
       const threshold = 40;
 
       if (wheelAccumulator > threshold) {
@@ -129,7 +128,7 @@ export default function TestimonialsSection() {
 
         setTimeout(() => {
           isScrolling = false;
-        }, 700);
+        }, 500);
       } else if (wheelAccumulator < -threshold) {
         e.preventDefault();
         isScrolling = true;
@@ -138,7 +137,7 @@ export default function TestimonialsSection() {
 
         setTimeout(() => {
           isScrolling = false;
-        }, 700);
+        }, 500);
       }
     };
 
@@ -150,21 +149,24 @@ export default function TestimonialsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="overflow-hidden bg-white py-20">
-      <div className="mx-auto max-w-[1240px] px-4">
+    <section ref={sectionRef} className="overflow-hidden bg-white py-12 sm:py-14 lg:py-20">
+      <div className="mx-auto max-w-[1240px] px-4 sm:px-6">
         <div className="text-center">
-          <h2 className="text-[34px] font-bold text-[#161b2d]">Testimonials</h2>
-          <p className="mx-auto mt-3 max-w-[560px] text-[12px] leading-6 text-[#9ca3af]">
+          <h2 className="text-[24px] font-bold text-[#161b2d] sm:text-[28px] lg:text-[34px]">
+            Testimonials
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-[560px] text-[11px] leading-6 text-[#9ca3af] sm:text-[12px]">
             Hear what our buyers say about the quality of our databases and the
             smooth experience of purchasing from our platform.
           </p>
 
-          <div className="mt-6 flex items-center justify-center gap-2">
+          <div className="mt-5 flex items-center justify-center gap-2 sm:mt-6">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`h-3.5 w-3.5 rounded-full transition ${
+                className={`h-2.5 w-2.5 rounded-full transition sm:h-3 sm:w-3 ${
                   index === activeIndex ? "bg-[#35b24a]" : "bg-[#cfcfcf]"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
@@ -174,15 +176,11 @@ export default function TestimonialsSection() {
           </div>
         </div>
 
-        <div className="relative mt-16 h-[260px]">
-          <div className="absolute left-[80px] top-[-10px] hidden h-[74px] w-[74px] items-center justify-center rounded-full bg-[#35b24a] text-[18px] font-bold text-white shadow-md lg:flex">
-            21k+
-          </div>
-
+        <div className="relative mt-10 sm:mt-12 lg:mt-16 min-h-[250px] sm:min-h-[290px] lg:h-[260px]">
           <button
             type="button"
             onClick={goPrev}
-            className="absolute left-[180px] top-1/2 z-20 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow lg:flex"
+            className="absolute left-[110px] top-1/2 z-20 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow lg:flex xl:left-[180px]"
           >
             ‹
           </button>
@@ -190,13 +188,13 @@ export default function TestimonialsSection() {
           <button
             type="button"
             onClick={goNext}
-            className="absolute right-[180px] top-1/2 z-20 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow lg:flex"
+            className="absolute right-[110px] top-1/2 z-20 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow lg:flex xl:right-[180px]"
           >
             ›
           </button>
 
           <div
-            className={`relative mx-auto flex h-full max-w-[980px] select-none items-center justify-center ${
+            className={`relative mx-auto flex min-h-[250px] w-full max-w-[980px] select-none items-center justify-center ${
               isDragging ? "cursor-grabbing" : "cursor-grab"
             }`}
             onMouseDown={(e) => handleDragStart(e.clientX)}
@@ -207,37 +205,33 @@ export default function TestimonialsSection() {
             onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
             onTouchEnd={handleDragEnd}
           >
-            <div className="pointer-events-none absolute left-[-120px] top-1/2 w-[260px] -translate-y-1/2 opacity-90">
+            <div className="pointer-events-none absolute left-0 top-1/2 hidden w-[220px] -translate-y-1/2 opacity-90 lg:block xl:left-[-60px] xl:w-[260px]">
               <SideCard item={left} />
             </div>
 
-            <div className="relative z-10 w-[460px]">
+            <div className="relative z-10 w-full max-w-[92%] sm:max-w-[78%] md:max-w-[640px] lg:max-w-[460px]">
               <MainCard item={active} />
             </div>
 
-            <div className="pointer-events-none absolute right-[-120px] top-1/2 w-[260px] -translate-y-1/2 opacity-90">
+            <div className="pointer-events-none absolute right-0 top-1/2 hidden w-[220px] -translate-y-1/2 opacity-90 lg:block xl:right-[-60px] xl:w-[260px]">
               <SideCard item={right} />
             </div>
           </div>
         </div>
 
-        <div className="mt-8 flex items-center justify-center gap-3 lg:hidden">
+        <div className="mt-6 flex items-center justify-center gap-3 lg:hidden">
           <button
             type="button"
             onClick={goPrev}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow sm:h-10 sm:w-10"
           >
             ‹
           </button>
 
-          <div className="flex h-[58px] w-[58px] items-center justify-center rounded-full bg-[#35b24a] text-[14px] font-bold text-white shadow">
-            21k+
-          </div>
-
           <button
             type="button"
             onClick={goNext}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#666] shadow sm:h-10 sm:w-10"
           >
             ›
           </button>
@@ -249,23 +243,25 @@ export default function TestimonialsSection() {
 
 function MainCard({ item }) {
   return (
-    <div className="rounded-[8px] bg-white px-8 py-7 shadow-[0_12px_28px_rgba(102,51,153,0.15)]">
-      <p className="text-center text-[15px] leading-7 text-[#111827]">
+    <div className="rounded-[12px] bg-white px-4 py-5 shadow-[0_12px_28px_rgba(102,51,153,0.15)] sm:px-6 sm:py-6 md:px-8 md:py-7">
+      <p className="text-center text-[13px] leading-6 text-[#111827] sm:text-[14px] sm:leading-7 md:text-[15px]">
         {item.message}
       </p>
 
-      <div className="mt-7 flex items-center justify-between">
+      <div className="mt-5 flex items-center justify-between sm:mt-6 md:mt-7">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-[#d9d9d9]" />
+          <div className="h-8 w-8 rounded-full bg-[#d9d9d9] sm:h-9 sm:w-9" />
           <div>
-            <h4 className="text-[13px] font-semibold text-[#111827]">
+            <h4 className="text-[12px] font-semibold text-[#111827] sm:text-[13px]">
               {item.name}
             </h4>
-            <p className="text-[11px] text-[#9ca3af]">{item.role}</p>
+            <p className="text-[10px] text-[#9ca3af] sm:text-[11px]">
+              {item.role}
+            </p>
           </div>
         </div>
 
-        <div className="tracking-[2px] text-[14px] text-[#ff7a3d]">
+        <div className="text-[12px] tracking-[2px] text-[#ff7a3d] sm:text-[14px]">
           {"★".repeat(item.rating)}
         </div>
       </div>
@@ -275,15 +271,15 @@ function MainCard({ item }) {
 
 function SideCard({ item }) {
   return (
-    <div className="rounded-[8px] bg-white px-7 py-6 shadow-sm">
-      <p className="line-clamp-3 text-[13px] leading-6 text-[#555]">
+    <div className="rounded-[10px] bg-white px-6 py-5 shadow-sm">
+      <p className="line-clamp-3 text-[12px] leading-5 text-[#555] xl:text-[13px] xl:leading-6">
         {item.message}
       </p>
 
-      <div className="mt-6 flex items-center gap-3">
+      <div className="mt-5 flex items-center gap-3 xl:mt-6">
         <div className="h-8 w-8 rounded-full bg-[#d9d9d9]" />
         <div>
-          <h4 className="text-[12px] font-semibold text-[#111827]">
+          <h4 className="text-[11px] font-semibold text-[#111827] xl:text-[12px]">
             {item.name}
           </h4>
           <p className="text-[10px] text-[#9ca3af]">{item.role}</p>
