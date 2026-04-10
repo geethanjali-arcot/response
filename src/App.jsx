@@ -33,7 +33,7 @@ export default function App() {
         {/* Outside navbar layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/buyer" element={<BuyerPage />} />
+        <Route path="/buy-items" element={<BuyerPage />} />
       </Routes>
     </BrowserRouter>
   );

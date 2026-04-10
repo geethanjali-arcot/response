@@ -12,6 +12,8 @@ import {
   SlidersHorizontal,
   X,
   ArrowUpDown,
+  MapPin,
+  Heart,
 } from "lucide-react";
 
 const categorySlugMap = {
@@ -30,29 +32,9 @@ const sortOptions = [
 ];
 
 const subCategoryFiltersMap = {
-  schools: [
-    "CBSE",
-    "ICSE",
-    "Private",
-    "Government",
-    "Residential",
-    "International",
-  ],
-  colleges: [
-    "Engineering",
-    "Degree",
-    "Autonomous",
-    "Top Placement",
-    "Private",
-    "Government",
-  ],
-  "coaching-centers": [
-    "NEET",
-    "JEE",
-    "EAMCET",
-    "Competitive Exams",
-    "Top Rated",
-  ],
+  schools: ["CBSE", "ICSE", "Private", "Government"],
+  colleges: ["Engineering", "Degree", "Autonomous", "Top Placement"],
+  "coaching-centers": ["NEET", "JEE", "EAMCET", "Competitive Exams"],
   "skill-training-institutes": [
     "Software Training",
     "Job Training",
@@ -61,30 +43,60 @@ const subCategoryFiltersMap = {
   ],
 
   builders: [
-    "Famous Builders",
-    "Verified",
-    "Top Rated",
-    "Residential",
-    "Commercial",
+    "Premium Builders in Hyderabad",
+    "Residential Builders in Vijayawada",
+    "Commercial Builders in Visakhapatnam",
+    "Apartment Builders in Guntur",
   ],
   "property-dealers": [
-    "Trusted Dealers",
-    "Verified",
-    "Residential",
-    "Commercial",
+    "Trusted Dealers in Hyderabad",
+    "Residential Dealers in Vijayawada",
+    "Commercial Dealers in Visakhapatnam",
+    "Verified Dealers in Guntur",
   ],
   "apartment-developers": [
-    "Premium",
-    "Verified",
-    "Top Rated",
-    "Gated Community",
+    "Premium Apartments in Hyderabad",
+    "Gated Community Developers",
+    "Luxury Apartment Projects",
+    "Affordable Apartment Developers",
   ],
-  "plot-sellers": ["Open Plots", "Verified", "Affordable", "Residential"],
+  "plot-sellers": [
+    "Open Plots in Hyderabad",
+    "Residential Plots in Vijayawada",
+    "Affordable Plots in Guntur",
+    "Verified Plot Sellers",
+  ],
+  "luxury-villas": [
+    "Luxury Villas in Hyderabad",
+    "Premium Villas in Vijayawada",
+    "Gated Villas in Visakhapatnam",
+    "Ready to Move Villas",
+  ],
 
-  hospitals: ["Multi Speciality", "24/7", "Emergency", "Private", "Top Rated"],
-  doctors: ["Specialists", "General", "Verified", "Top Rated"],
-  "diagnostic-centers": ["Labs", "Scans", "Blood Tests", "Verified"],
-  "emergency-care": ["24/7", "Critical Care", "Ambulance", "Verified"],
+  hospitals: [
+    "Multi Speciality Hospitals",
+    "24/7 Hospitals",
+    "Emergency Hospitals",
+    "Top Rated Private Hospitals",
+  ],
+  doctors: [
+    "Specialist Doctors",
+    "General Physicians",
+    "Verified Doctors",
+    "Top Rated Doctors",
+  ],
+  "diagnostic-centers": [
+    "Labs",
+    "Scans",
+    "Blood Tests",
+    "Verified Diagnostic Centers",
+  ],
+  "emergency-care": [
+    "24/7 Emergency Care",
+    "Critical Care",
+    "Ambulance Services",
+    "Verified Emergency Centers",
+  ],
 
   "boys-hostels": ["Near College", "Affordable", "AC Rooms", "Verified"],
   "girls-hostels": ["Safe", "Near College", "AC Rooms", "Verified"],
@@ -93,21 +105,221 @@ const subCategoryFiltersMap = {
 
   "study-abroad": ["Admissions", "Visa Help", "Popular", "Verified"],
   "visa-services": ["Student Visa", "Tourist Visa", "Work Visa", "Verified"],
-  "immigration-consultants": ["Canada PR", "Migration", "Verified", "Top Rated"],
+  "immigration-consultants": [
+    "Canada PR",
+    "Migration",
+    "Verified",
+    "Top Rated",
+  ],
   "overseas-jobs": ["Jobs", "Work Permit", "Popular", "Verified"],
 };
+
+const stopWords = new Set([
+  "in",
+  "and",
+  "the",
+  "for",
+  "with",
+  "of",
+  "to",
+  "all",
+  "top",
+  "rated",
+  "verified",
+]);
+
+function safeParse(value, fallback) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
+function normalizeText(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function normalizeForMatch(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getMeaningfulTokens(value) {
+  return normalizeForMatch(value)
+    .split(" ")
+    .filter((token) => token && token.length > 2 && !stopWords.has(token));
+}
+
+function getSavedLocationData() {
+  const selectedState = localStorage.getItem("selectedState") || "";
+  const selectedCities = safeParse(localStorage.getItem("selectedCities"), []);
+  const selectedLocations = safeParse(
+    localStorage.getItem("selectedLocations"),
+    []
+  );
+
+  return {
+    selectedState,
+    selectedCities: Array.isArray(selectedCities) ? selectedCities : [],
+    selectedLocations: Array.isArray(selectedLocations) ? selectedLocations : [],
+  };
+}
+
+function collectLocationValues(source) {
+  if (!source) return [];
+
+  const values = [
+    source.state,
+    source.city,
+    source.location,
+    source.area,
+    source.region,
+    source.place,
+    source.address,
+    source.district,
+    source.town,
+    source.village,
+    source.locality,
+    source.selectedState,
+    ...(Array.isArray(source.selectedCities) ? source.selectedCities : []),
+    ...(Array.isArray(source.locations) ? source.locations : []),
+    ...(Array.isArray(source.cities) ? source.cities : []),
+    ...(Array.isArray(source.states) ? source.states : []),
+    ...(Array.isArray(source.serviceAreas) ? source.serviceAreas : []),
+  ];
+
+  return values
+    .filter(Boolean)
+    .flatMap((value) =>
+      String(value)
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean)
+    );
+}
+
+function itemMatchesLocation(item, detail, selectedState, selectedCities) {
+  if (!selectedState) return true;
+
+  const itemValues = collectLocationValues(item);
+  const detailValues = collectLocationValues(detail);
+
+  const previewRows = [
+    ...(detail?.previewData || []),
+    ...(detail?.sampleData || []),
+    ...(detail?.previewRows || []),
+    ...(detail?.demoData || []),
+  ];
+
+  const rowValues = previewRows.flatMap((row) => collectLocationValues(row));
+
+  const allValues = [...itemValues, ...detailValues, ...rowValues].map(normalizeText);
+
+  if (allValues.length === 0) return true;
+
+  const stateMatched = allValues.some((value) =>
+    value.includes(normalizeText(selectedState))
+  );
+
+  if (!stateMatched) return false;
+
+  if (!selectedCities.length) return true;
+
+  return selectedCities.some((city) =>
+    allValues.some((value) => value.includes(normalizeText(city)))
+  );
+}
+
+function buildSearchableValues(item, detail, selectedSub) {
+  return [
+    item?.title,
+    item?.slug,
+    ...(item?.tags || []),
+    detail?.title,
+    detail?.name,
+    detail?.subtitle,
+    detail?.category,
+    detail?.subCategory,
+    detail?.description,
+    detail?.type,
+    detail?.location,
+    detail?.city,
+    detail?.state,
+    ...(detail?.tags || []),
+    ...(detail?.features || []),
+    ...(detail?.keywords || []),
+    ...(detail?.searchTags || []),
+    ...(detail?.categories || []),
+    ...(detail?.services || []),
+    ...(detail?.specialties || []),
+    ...(detail?.propertyTypes || []),
+    ...(detail?.previewData || []).flatMap((row) => Object.values(row || {})),
+    ...(detail?.sampleData || []).flatMap((row) => Object.values(row || {})),
+    ...(detail?.previewRows || []).flatMap((row) => Object.values(row || {})),
+    ...(detail?.demoData || []).flatMap((row) => Object.values(row || {})),
+    selectedSub,
+  ]
+    .flat()
+    .filter(Boolean)
+    .map((value) => normalizeForMatch(value));
+}
+
+function tagMatchesItem(tag, searchableValues) {
+  const normalizedTag = normalizeForMatch(tag);
+  if (!normalizedTag) return true;
+
+  if (searchableValues.some((value) => value.includes(normalizedTag))) {
+    return true;
+  }
+
+  const tagTokens = getMeaningfulTokens(tag);
+  if (!tagTokens.length) {
+    return searchableValues.some((value) => value.includes(normalizedTag));
+  }
+
+  return tagTokens.some((token) =>
+    searchableValues.some((value) => value.includes(token))
+  );
+}
+
+function getWishlistItems() {
+  return safeParse(localStorage.getItem("wishlistItems"), []);
+}
+
+function saveWishlistItems(items) {
+  localStorage.setItem("wishlistItems", JSON.stringify(items));
+  window.dispatchEvent(new Event("wishlistUpdated"));
+}
 
 export default function CategoryPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
   const selectedSub = searchParams.get("sub");
 
-  const [selectedTags, setSelectedTags] = useState([]);
+  const selectedTagParams = useMemo(
+    () => searchParams.getAll("tag"),
+    [searchParams.toString()]
+  );
+
+  const [selectedTags, setSelectedTags] = useState(() => selectedTagParams);
   const [sortBy, setSortBy] = useState("Recommended");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [priceLimit, setPriceLimit] = useState(50000);
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [wishlistIds, setWishlistIds] = useState([]);
+
+  const [selectedState, setSelectedState] = useState(
+    getSavedLocationData().selectedState
+  );
+  const [selectedCities, setSelectedCities] = useState(
+    getSavedLocationData().selectedCities
+  );
 
   const sortMenuRef = useRef(null);
 
@@ -116,6 +328,30 @@ export default function CategoryPage() {
   const categoryGroup = showcaseGroups.find(
     (group) => group.category === categoryName
   );
+
+  useEffect(() => {
+    setSelectedTags(selectedTagParams);
+  }, [searchParams.toString()]);
+
+  useEffect(() => {
+    const syncWishlist = () => {
+      const items = getWishlistItems();
+      const ids = Array.isArray(items)
+        ? items.map((item) => item?.id || item?.slug).filter(Boolean)
+        : [];
+      setWishlistIds(ids);
+    };
+
+    syncWishlist();
+
+    window.addEventListener("wishlistUpdated", syncWishlist);
+    window.addEventListener("storage", syncWishlist);
+
+    return () => {
+      window.removeEventListener("wishlistUpdated", syncWishlist);
+      window.removeEventListener("storage", syncWishlist);
+    };
+  }, []);
 
   useEffect(() => {
     if (!showMobileFilters) {
@@ -141,10 +377,30 @@ export default function CategoryPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const syncLocation = () => {
+      const locationData = getSavedLocationData();
+      setSelectedState(locationData.selectedState);
+      setSelectedCities(locationData.selectedCities);
+    };
+
+    syncLocation();
+
+    window.addEventListener("locationUpdated", syncLocation);
+    window.addEventListener("locationFilterChanged", syncLocation);
+    window.addEventListener("storage", syncLocation);
+
+    return () => {
+      window.removeEventListener("locationUpdated", syncLocation);
+      window.removeEventListener("locationFilterChanged", syncLocation);
+      window.removeEventListener("storage", syncLocation);
+    };
+  }, []);
+
   if (!categoryGroup) {
     return (
       <section className="bg-white py-6 sm:py-8 lg:py-10">
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-xl font-bold text-[#1f2937] sm:text-2xl">
               Category not found
@@ -186,13 +442,22 @@ export default function CategoryPage() {
         item.slug === selectedSub ||
         item.parentSlug === selectedSub;
 
+      const searchableValues = buildSearchableValues(item, detail, selectedSub);
+
       const tagMatch =
         selectedTags.length === 0 ||
-        selectedTags.every((tag) => (item.tags || []).includes(tag));
+        selectedTags.every((tag) => tagMatchesItem(tag, searchableValues));
 
       const priceMatch = price <= priceLimit;
 
-      return belongsToSelectedSub && tagMatch && priceMatch;
+      const locationMatch = itemMatchesLocation(
+        item,
+        detail,
+        selectedState,
+        selectedCities
+      );
+
+      return belongsToSelectedSub && tagMatch && priceMatch && locationMatch;
     });
 
     if (selectedSub) {
@@ -222,7 +487,15 @@ export default function CategoryPage() {
     }
 
     return items;
-  }, [allItems, selectedSub, selectedTags, sortBy, priceLimit]);
+  }, [
+    allItems,
+    selectedSub,
+    selectedTags,
+    sortBy,
+    priceLimit,
+    selectedState,
+    selectedCities,
+  ]);
 
   const toggleTag = (tag) => {
     setSelectedTags((prev) =>
@@ -237,6 +510,34 @@ export default function CategoryPage() {
     setPriceLimit(50000);
     navigate(`/category/${slug}`);
     setShowMobileFilters(false);
+  };
+
+  const toggleWishlist = (item, detail) => {
+    const currentWishlist = getWishlistItems();
+    const itemId = item.slug;
+    const exists = currentWishlist.some(
+      (wishlistItem) => (wishlistItem?.id || wishlistItem?.slug) === itemId
+    );
+
+    if (exists) {
+      const updated = currentWishlist.filter(
+        (wishlistItem) => (wishlistItem?.id || wishlistItem?.slug) !== itemId
+      );
+      saveWishlistItems(updated);
+      return;
+    }
+
+    const newItem = {
+      id: item.slug,
+      slug: item.slug,
+      title: detail?.title || item.title,
+      image: detail?.heroImage || item.image || "",
+      price: detail?.price || 0,
+      oldPrice: detail?.oldPrice || 0,
+      category: categoryGroup.category,
+    };
+
+    saveWishlistItems([...currentWishlist, newItem]);
   };
 
   const selectedSubLabel = selectedSub
@@ -329,6 +630,42 @@ export default function CategoryPage() {
         </div>
       )}
 
+      <div className="border-b border-slate-200 px-4 py-5 sm:px-5">
+        <h4 className="mb-4 text-[13px] font-bold uppercase tracking-wide text-[#282c3f] sm:text-[14px]">
+          Location
+        </h4>
+
+        <div className="rounded-xl bg-slate-50 px-3 py-3">
+          <div className="flex items-center gap-2 text-[14px] font-semibold text-slate-800">
+            <MapPin size={15} className="text-[#ff3f6c]" />
+            <span>{selectedState || "All Locations"}</span>
+          </div>
+
+          <div className="mt-2 flex flex-wrap gap-2">
+            {selectedState ? (
+              selectedCities.length ? (
+                selectedCities.map((city) => (
+                  <span
+                    key={city}
+                    className="rounded-full bg-white px-3 py-1 text-[12px] font-semibold text-slate-700"
+                  >
+                    {city}
+                  </span>
+                ))
+              ) : (
+                <span className="text-[12px] text-slate-600">
+                  All cities in {selectedState}
+                </span>
+              )
+            ) : (
+              <span className="text-[12px] text-slate-600">
+                No location selected from navbar
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
       <div className="px-4 py-5 sm:px-5">
         <h4 className="mb-4 text-[13px] font-bold uppercase tracking-wide text-[#282c3f] sm:text-[14px]">
           Price
@@ -361,7 +698,7 @@ export default function CategoryPage() {
 
   return (
     <section className="bg-white py-4 sm:py-5 lg:py-6">
-      <div className="mx-auto max-w-[1440px] px-3 sm:px-4 md:px-5 lg:px-6 xl:px-8">
+      <div className="mx-auto max-w-[1760px] px-3 sm:px-4 md:px-5 lg:px-5 xl:px-6 2xl:px-8">
         <div className="mb-4 flex flex-wrap items-center gap-2 text-[12px] text-slate-500 sm:text-[13px]">
           <button
             type="button"
@@ -388,6 +725,17 @@ export default function CategoryPage() {
               </span>
             </>
           )}
+        </div>
+
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-[12px] font-semibold text-slate-700">
+            <MapPin size={14} className="text-[#ff3f6c]" />
+            {selectedState
+              ? selectedCities.length
+                ? `${selectedState} | ${selectedCities.join(", ")}`
+                : `${selectedState} | All Cities`
+              : "All Locations"}
+          </div>
         </div>
 
         <div className="mb-5 flex items-center justify-between gap-3 sm:mb-6">
@@ -451,7 +799,7 @@ export default function CategoryPage() {
         </div>
 
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:gap-6 xl:gap-8">
-          <aside className="hidden lg:block lg:w-[260px] lg:shrink-0 xl:w-[280px]">
+          <aside className="hidden lg:block lg:w-[220px] lg:shrink-0 xl:w-[240px]">
             <div className="sticky top-24 overflow-hidden rounded-xl border border-slate-200">
               <FilterSidebar />
             </div>
@@ -461,11 +809,11 @@ export default function CategoryPage() {
             {filteredItems.length === 0 ? (
               <div className="rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
                 <p className="text-[15px] text-slate-500">
-                  No datasets available for this filter.
+                  No datasets available for this filter and location.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:gap-x-5 sm:gap-y-8 md:grid-cols-3 md:gap-x-6 md:gap-y-9 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-10">
                 {filteredItems.map((item, index) => {
                   const detail = detailPageData[item.slug];
                   const price = Number(detail?.price || 0);
@@ -475,63 +823,84 @@ export default function CategoryPage() {
                       ? Math.round(((oldPrice - price) / oldPrice) * 100)
                       : 0;
 
+                  const isWishlisted = wishlistIds.includes(item.slug);
+
                   return (
                     <div key={item.slug} className="group min-w-0">
-                      <Link to={`/dataset/${item.slug}`} className="block">
-                        <div className="relative overflow-hidden rounded-md bg-[#f5f5f6]">
+                      <div className="relative aspect-[3/4] overflow-hidden bg-[#f3f4f6]">
+                        <Link to={`/dataset/${item.slug}`} className="block h-full w-full">
                           <img
                             src={detail?.heroImage || item.image}
                             alt={item.title}
-                            className="h-[190px] w-full object-cover sm:h-[230px] md:h-[250px] lg:h-[260px] xl:h-[280px]"
+                            className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                           />
+                        </Link>
 
-                          {index % 4 === 0 && (
-                            <span className="absolute right-2 top-2 rounded bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600">
-                              DATA
-                            </span>
-                          )}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleWishlist(item, detail);
+                          }}
+                          className="absolute right-2 top-2 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-sm transition hover:scale-105"
+                          aria-label={
+                            isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+                          }
+                        >
+                          <Heart
+                            size={17}
+                            strokeWidth={2}
+                            className={
+                              isWishlisted
+                                ? "fill-[#ff3f6c] text-[#ff3f6c]"
+                                : "text-slate-700"
+                            }
+                          />
+                        </button>
 
-                          <div className="absolute bottom-3 left-3 rounded bg-white/95 px-2 py-1 text-[11px] font-semibold text-[#282c3f] shadow-sm sm:text-[12px]">
-                            Verified | 20.5k
-                          </div>
-                        </div>
-                      </Link>
+                        {index % 4 === 0 && (
+                          <span className="absolute left-2 top-2 rounded bg-white px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 shadow-sm">
+                            AD
+                          </span>
+                        )}
+                      </div>
 
-                      <div className="px-1 pt-3">
-                        <h3 className="truncate text-[14px] font-bold text-[#282c3f] sm:text-[15px] lg:text-[16px]">
+                      <div className="pt-3">
+                        <Link
+                          to={`/dataset/${item.slug}`}
+                          className="mb-3 inline-flex h-[42px] w-full items-center justify-center border border-slate-300 bg-white text-[12px] font-semibold uppercase tracking-wide text-[#282c3f] transition hover:border-slate-400"
+                        >
+                          View Details
+                        </Link>
+
+                        <h3 className="truncate text-[15px] font-bold leading-none text-[#282c3f] sm:text-[15px] lg:text-[16px]">
                           {selectedSub ? selectedSubLabel : categoryGroup.category}
                         </h3>
 
-                        <p className="truncate text-[12px] text-slate-600 sm:text-[13px] lg:text-[14px]">
+                        <p className="mt-2 truncate text-[13px] leading-none text-slate-700 sm:text-[13px] lg:text-[14px]">
                           {item.title}
                         </p>
 
-                        <div className="mt-2 flex flex-wrap items-center gap-2">
-                          <span className="text-[14px] font-bold text-[#282c3f] sm:text-[15px] lg:text-[16px]">
+                        <p className="mt-2 truncate text-[12px] text-slate-500">
+                          Sizes: 5 to 6Y
+                        </p>
+
+                        <div className="mt-3 flex flex-wrap items-center gap-2">
+                          <span className="text-[15px] font-bold text-[#111827] sm:text-[16px]">
                             Rs. {price}
                           </span>
 
-                          <span className="text-[12px] text-slate-400 line-through sm:text-[13px] lg:text-[14px]">
+                          <span className="text-[12px] text-slate-400 line-through sm:text-[13px]">
                             Rs. {oldPrice}
                           </span>
 
                           {discount > 0 && (
-                            <span className="text-[11px] font-semibold text-[#ff905a] sm:text-[12px] lg:text-[13px]">
+                            <span className="text-[12px] font-medium text-[#f97316]">
                               ({discount}% OFF)
                             </span>
                           )}
                         </div>
-
-                        <p className="mt-2 text-[11px] text-slate-500 sm:text-[12px] lg:text-[13px]">
-                          B2B verified dataset
-                        </p>
-
-                        <Link
-                          to={`/dataset/${item.slug}`}
-                          className="mt-3 inline-flex min-h-[40px] items-center justify-center rounded-md bg-[#0f172a] px-4 py-2 text-[12px] font-semibold text-white transition hover:bg-[#ff3f6c] sm:text-[13px]"
-                        >
-                          View Dataset
-                        </Link>
                       </div>
                     </div>
                   );

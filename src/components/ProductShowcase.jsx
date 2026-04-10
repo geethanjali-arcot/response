@@ -12,10 +12,10 @@ function CategoryCard({ item, tone }) {
   return (
     <div
       onClick={handleCardClick}
-      className="w-[70px] shrink-0 cursor-pointer sm:w-[82px] md:w-[110px] lg:w-[115px]"
+      className="w-full md:max-w-[120px] lg:max-w-[115px] mx-auto cursor-pointer"
     >
       <div
-        className={`relative h-[88px] overflow-hidden rounded-[12px] border border-white/80 shadow-sm transition hover:-translate-y-1 sm:h-[102px] sm:rounded-[14px] md:h-[132px] lg:h-[145px] lg:rounded-[16px] ${tone}`}
+        className={`relative h-[92px] overflow-hidden rounded-[12px] border border-white/80 shadow-sm transition duration-300 hover:-translate-y-1 xs:h-[100px] sm:h-[112px] md:h-[160px] lg:h-[138px] xl:h-[145px] ${tone}`}
       >
         <img
           src={item.image}
@@ -25,7 +25,7 @@ function CategoryCard({ item, tone }) {
         <div className="absolute inset-0 bg-white/10" />
       </div>
 
-      <p className="mt-2 text-center text-[9px] font-semibold leading-4 text-[#1f2340] sm:text-[10px] md:mt-3 md:text-[11px] lg:mt-4 lg:text-[11px]">
+      <p className="mt-2 line-clamp-2 text-center text-[10px] font-semibold leading-4 text-[#1f2340] sm:text-[11px] md:mt-3 md:text-[11px] lg:mt-4 lg:text-[12px]">
         {item.title}
       </p>
     </div>
@@ -38,7 +38,10 @@ function Dots({ colorClass, positionClass }) {
       className={`absolute hidden sm:grid grid-cols-4 gap-[6px] ${positionClass} ${colorClass}`}
     >
       {Array.from({ length: 8 }).map((_, i) => (
-        <span key={i} className="h-[5px] w-[5px] rounded-full bg-current"></span>
+        <span
+          key={i}
+          className="h-[5px] w-[5px] rounded-full bg-current"
+        ></span>
       ))}
     </div>
   );
@@ -56,7 +59,7 @@ function ShowcaseBox({
 }) {
   return (
     <div
-      className={`relative min-h-[235px] overflow-hidden rounded-[16px] px-3 pb-4 pt-4 sm:min-h-[255px] sm:rounded-[18px] sm:px-4 sm:pb-5 sm:pt-5 md:min-h-[320px] md:rounded-[20px] md:px-5 md:pb-6 md:pt-6 lg:min-h-[330px] lg:rounded-[22px] lg:px-8 lg:pb-8 lg:pt-8 ${bgColor}`}
+      className={`relative overflow-hidden rounded-[16px] px-3 pb-4 pt-4 sm:rounded-[18px] sm:px-4 sm:pb-5 sm:pt-5 md:rounded-[20px] md:px-5 md:pb-6 md:pt-6 lg:rounded-[22px] lg:px-6 lg:pb-7 lg:pt-7 xl:px-8 xl:pb-8 xl:pt-8 ${bgColor}`}
     >
       <div
         className={`absolute -right-4 -top-4 h-16 w-16 rounded-full opacity-70 sm:h-20 sm:w-20 lg:-right-6 lg:-top-6 lg:h-28 lg:w-28 ${circleColor}`}
@@ -71,7 +74,7 @@ function ShowcaseBox({
       />
 
       <div className="relative z-10">
-        <h2 className="mb-1.5 text-[15px] font-black text-[#1f2340] sm:text-[18px] md:text-[22px] lg:text-[26px]">
+        <h2 className="mb-1.5 text-[16px] font-black text-[#1f2340] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px]">
           {title}
         </h2>
 
@@ -79,20 +82,18 @@ function ShowcaseBox({
           {categoryName}
         </p>
 
-        <p className="mb-4 max-w-[460px] text-[9.5px] leading-4.5 text-[#64748b] sm:mb-5 sm:min-h-[38px] sm:text-[11px] sm:leading-5 md:mb-6 md:min-h-[44px] md:text-[12px] md:leading-6 lg:mb-7 lg:min-h-[48px]">
+        <p className="mb-4 max-w-[500px] text-[10px] leading-5 text-[#64748b] sm:mb-5 sm:text-[11px] md:mb-6 md:text-[12px] md:leading-6 lg:mb-7 lg:text-[13px]">
           {description}
         </p>
 
-        <div className="relative">
-          <div className="flex items-start justify-between gap-1.5 sm:justify-between sm:gap-2.5 md:justify-between md:gap-3 lg:justify-center lg:gap-4">
-            {items.map((item, index) => (
-              <CategoryCard
-                key={item.slug}
-                item={item}
-                tone={tones[index % tones.length]}
-              />
-            ))}
-          </div>
+        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-3 lg:gap-4">
+          {items.map((item, index) => (
+            <CategoryCard
+              key={item.slug}
+              item={item}
+              tone={tones[index % tones.length]}
+            />
+          ))}
         </div>
       </div>
     </div>
@@ -136,8 +137,8 @@ export default function ProductShowcase() {
 
   return (
     <section className="mt-8 pb-10 sm:mt-10 md:mt-12 lg:mt-14 lg:pb-12">
-      <div className="mx-auto w-full max-w-[1380px] px-3 sm:px-4 md:px-4 lg:px-2">
-        <div className="grid grid-cols-1 gap-4 sm:gap-4 md:gap-5 lg:grid-cols-2">
+      <div className="mx-auto w-full max-w-[1380px] px-3 sm:px-4 md:px-5 lg:px-6">
+        <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2">
           <ShowcaseBox
             title="Recommended Datasets"
             description={currentGroup.recommendedDescription}
